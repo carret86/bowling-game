@@ -3,20 +3,19 @@ using Bowling.Abstract.Enums;
 
 namespace Bowling
 {
-    public class Frame : IFrame
+  public class Frame : IFrame
+  {
+    public int Total { get; private set; }
+    public int Index { get; private set; }
+
+    public Frame(int index)
     {
-      public int Index { get; private set; }
-
-      public Frame(int index)
-      {
-        Index = index;
-      }
-
-      public int GetTotal() => throw new NotImplementedException();
-
-      public void Roll(int pins)
-      {
-        throw new NotImplementedException();
-      }
+      Index = index;
     }
+
+    public void Roll(int pins)
+    {
+      Total += pins;
+    }
+  }
 }

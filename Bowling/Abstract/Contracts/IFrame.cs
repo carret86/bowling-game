@@ -2,12 +2,12 @@
 
 namespace Bowling.Abstract.Contracts
 {
-    public interface IFrame
-    {
-        public int Index { get; }
+  public interface IFrame
+  {
+    public int Index { get; }
 
-        int GetTotal();
+    int Total { get; }
 
-        void Roll(int pins);
-    }
+    void Roll(int pins);
+  }
 }
