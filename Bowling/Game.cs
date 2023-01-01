@@ -2,13 +2,13 @@
 
 namespace Bowling
 {
-    public class Game : IGame
+  public class Game : IGame
+  {
+    public void Roll(int pins)
     {
-      public void Roll(int pins)
-      {
-        throw new NotImplementedException();
-      }
-
-      public int Score() => throw new NotImplementedException();
+      throw new NotImplementedException();
     }
+
+    public int Score() => throw new NotImplementedException();
+  }
 }
