@@ -4,9 +4,11 @@ namespace Bowling.Abstract.Contracts
 {
   public interface IFrame
   {
-    public int Index { get; }
+    int Index { get; }
 
     int Total { get; }
+
+    Roll[] Rolls {get;}
 
     void Roll(int pins);
   }

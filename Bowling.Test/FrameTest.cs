@@ -27,5 +27,14 @@ namespace Bowling.Test
       sut.Roll(pins);
       sut.Total.Should().Be(pins);
     }
+
+    [Fact]
+    public void Frame_ShouldHave_Two_Rolls_Maximum()
+    {
+      var sut = new Frame(1);
+      sut.Roll(2);
+      sut.Roll(3);
+      Assert.Throws<IndexOutOfRangeException>(() => sut.Roll(3));
+    }
   }
 }
