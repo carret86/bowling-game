@@ -8,8 +8,6 @@ namespace Bowling.Abstract.Contracts
 
     int Total { get; }
 
-    Roll[] Rolls {get;}
-
     ScoreType ScoreType { get; }
 
     void Roll(int pins);
