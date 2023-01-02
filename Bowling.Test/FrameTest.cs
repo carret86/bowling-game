@@ -1,4 +1,5 @@
 ﻿using Bowling.Abstract.Contracts;
+using Bowling.Abstract.Enums;
 using FluentAssertions;
 using Xunit;
 
@@ -29,12 +30,29 @@ namespace Bowling.Test
     }
 
     [Fact]
-    public void Frame_ShouldHave_Two_Rolls_Maximum()
+    public void Frame_Should_Have_Two_Rolls_Maximum()
     {
       var sut = new Frame(1);
       sut.Roll(2);
       sut.Roll(3);
       Assert.Throws<IndexOutOfRangeException>(() => sut.Roll(3));
+    }
+
+    [Fact]
+    public void Frame_Should_Be_Strike()
+    {
+      var sut = new Frame(1);
+      sut.Roll(10);
+      sut.ScoreType.Should().Be(ScoreType.Strike);
+    }
+
+    [Fact]
+    public void Frame_Should_Be_Spare()
+    {
+      var sut = new Frame(1);
+      sut.Roll(9);
+      sut.Roll(1);
+      sut.ScoreType.Should().Be(ScoreType.Spare);
     }
   }
 }
