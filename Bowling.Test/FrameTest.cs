@@ -7,6 +7,13 @@ namespace Bowling.Test
 {
   public class FrameTest
   {
+    private readonly Frame _sut;
+
+    public FrameTest()
+    {
+      _sut = new Frame(1);
+    }
+
     [Theory]
     [InlineData(1)]
     [InlineData(2)]
@@ -24,44 +31,39 @@ namespace Bowling.Test
     [InlineData(5)]
     public void FrameTest_Roll_ReturnRightTotal(int pins)
     {
-      var sut = new Frame(1);
-      sut.Roll(pins);
-      sut.Total.Should().Be(pins);
+      _sut.Roll(pins);
+      _sut.Total.Should().Be(pins);
     }
 
     [Fact]
     public void Frame_Should_Have_Two_Rolls_Maximum()
     {
-      var sut = new Frame(1);
-      sut.Roll(2);
-      sut.Roll(3);
-      Assert.Throws<IndexOutOfRangeException>(() => sut.Roll(3));
+      _sut.Roll(2);
+      _sut.Roll(3);
+      Assert.Throws<IndexOutOfRangeException>(() => _sut.Roll(3));
     }
 
     [Fact]
     public void Frame_Should_Be_Strike()
     {
-      var sut = new Frame(1);
-      sut.Roll(10);
-      sut.ScoreType.Should().Be(ScoreType.Strike);
+      _sut.Roll(10);
+      _sut.ScoreType.Should().Be(ScoreType.Strike);
     }
 
     [Fact]
     public void Frame_Should_Be_Spare()
     {
-      var sut = new Frame(1);
-      sut.Roll(9);
-      sut.Roll(1);
-      sut.ScoreType.Should().Be(ScoreType.Spare);
+      _sut.Roll(9);
+      _sut.Roll(1);
+      _sut.ScoreType.Should().Be(ScoreType.Spare);
     }
 
     [Fact]
     public void Frame_Should_Be_Normal()
     {
-      var sut = new Frame(1);
-      sut.Roll(8);
-      sut.Roll(1);
-      sut.ScoreType.Should().Be(ScoreType.Normal);
+      _sut.Roll(8);
+      _sut.Roll(1);
+      _sut.ScoreType.Should().Be(ScoreType.Normal);
     }
   }
 }

@@ -5,6 +5,13 @@ namespace Bowling.Test
 {
   public class GameTest
   {
+    private Game _sut;
+
+    public GameTest()
+    {
+      _sut = new Game();
+    }
+    
     [Fact]
     public void Can_Create_Game()
     {
@@ -14,27 +21,25 @@ namespace Bowling.Test
     [Fact]
     public void Can_Roll_No_Pins_In_Game()
     {
-      var sut = new Game();
+      RollMany(0, 20);
 
-      for (var i = 0; i < 20; i++)
-      {
-        sut.Roll(0);
-      }
-
-      sut.Score().Should().Be(0);
+      _sut.Score().Should().Be(0);
     }
 
     [Fact]
     public void Can_Roll_1_Pin_For_Each_Roll_In_Game()
     {
-      var sut = new Game();
+      RollMany(1, 20);
 
-      for (var i = 0; i < 20; i++)
+      _sut.Score().Should().Be(20);
+    }
+
+    private void RollMany(int pins, int rolls)
+    {
+      for (var i = 0; i < rolls; i++)
       {
-        sut.Roll(1);
+        _sut.Roll(pins);
       }
-
-      sut.Score().Should().Be(20);
     }
   }
 }
