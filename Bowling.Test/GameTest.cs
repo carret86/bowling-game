@@ -34,6 +34,16 @@ namespace Bowling.Test
       _sut.Score().Should().Be(20);
     }
 
+    [Fact]
+    public void Can_Roll_Spare()
+    {
+      _sut.Roll(4);
+      _sut.Roll(6);
+      _sut.Roll(2);
+      RollMany(0, 17);
+      _sut.Score().Should().Be(14);
+    }
+
     private void RollMany(int pins, int rolls)
     {
       for (var i = 0; i < rolls; i++)

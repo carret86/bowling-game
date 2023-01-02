@@ -7,7 +7,7 @@ namespace Bowling
 {
   public class Frame : IFrame
   {
-    public int Total => _rolls.Sum(x => x?.Score ?? 0);
+    public int Total => _rolls.Sum(x => x?.Score ?? 0) + Bonus;
 
     public int Index { get; }
 
@@ -15,14 +15,13 @@ namespace Bowling
 
     public ScoreType ScoreType => _rolls.LastOrDefault(x => x != null)?.Type ?? ScoreType.None;
 
-    public byte RollNumber = 0;
+    public byte RollNumber { get; private set; } = 0;
 
     public bool IsCompleted => RollNumber == Constants.MaxFrameRollNumber;
 
-    public Frame()
-    {
-      
-    }
+    public int Bonus { get; set; }
+
+    public Frame() { }
 
     public Frame(int index)
     {

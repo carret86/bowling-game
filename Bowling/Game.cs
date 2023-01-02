@@ -1,4 +1,5 @@
 ﻿using Bowling.Abstract.Contracts;
+using Bowling.Abstract.Enums;
 
 namespace Bowling
 {
@@ -15,6 +16,11 @@ namespace Bowling
         _frames[_frameIndex] = new Frame();
       }
       _currentFrame.Roll(pins);
+
+      if (_frameIndex > 0 && _frames[_frameIndex].RollNumber == 1 && _frames[_frameIndex - 1].ScoreType == ScoreType.Spare)
+      {
+        _frames[_frameIndex - 1].Bonus = pins;
+      }
 
       if (_currentFrame.IsCompleted)
       {
