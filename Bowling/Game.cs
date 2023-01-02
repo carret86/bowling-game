@@ -17,12 +17,26 @@ namespace Bowling
       }
       _currentFrame.Roll(pins);
 
-      if (_frameIndex > 0 && _frames[_frameIndex].RollNumber == 1 && _frames[_frameIndex - 1].ScoreType == ScoreType.Spare)
+      var previousScoreType = _frameIndex > 0 ? _frames[_frameIndex - 1].ScoreType : ScoreType.None;
+
+      if (previousScoreType != ScoreType.None)
       {
-        _frames[_frameIndex - 1].Bonus = pins;
+        if (_frames[_frameIndex].RollNumber == 1 && previousScoreType is ScoreType.Spare)
+        {
+          _frames[_frameIndex - 1].Bonus = pins;
+        }
+        else if (previousScoreType is ScoreType.Strike)
+        {
+          _frames[_frameIndex - 1].Bonus += pins;
+
+          if (_frameIndex - 1 > 0 && _frames[_frameIndex - 2].ScoreType == ScoreType.Strike)
+          {
+            _frames[_frameIndex - 2].Bonus += pins;
+          }
+        }
       }
 
-      if (_currentFrame.IsCompleted)
+      if (_currentFrame.IsCompleted || _currentFrame.ScoreType == ScoreType.Strike)
       {
         _frameIndex++;
       }
