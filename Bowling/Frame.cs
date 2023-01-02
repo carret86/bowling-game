@@ -15,7 +15,7 @@ namespace Bowling
 
     public ScoreType ScoreType => _rolls.LastOrDefault(x => x != null).Type;
 
-    private byte _rollNumber = 0;
+    private byte _rollNumber = 1;
 
     public Frame(int index)
     {
@@ -26,7 +26,7 @@ namespace Bowling
     {
       var roll = new Roll() { Score = pins };
 
-      _rolls[_rollNumber] = roll;
+      _rolls[_rollNumber-1] = roll;
 
       if (IsStrike(pins))
       {
@@ -44,9 +44,9 @@ namespace Bowling
       _rollNumber++;
     }
 
-    private bool IsSpare() => _rollNumber == 1 && IsMaxScoreReached(_rolls.Sum(x => x.Score));
+    private bool IsSpare() => _rollNumber == 2 && IsMaxScoreReached(_rolls.Sum(x => x.Score));
 
-    private bool IsStrike(int pins) => _rollNumber == 0 && IsMaxScoreReached(pins);
+    private bool IsStrike(int pins) => _rollNumber == 1 && IsMaxScoreReached(pins);
 
     private static bool IsMaxScoreReached(int score) => score == Constants.MaxRollScore;
   }
