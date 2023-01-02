@@ -54,5 +54,14 @@ namespace Bowling.Test
       sut.Roll(1);
       sut.ScoreType.Should().Be(ScoreType.Spare);
     }
+
+    [Fact]
+    public void Frame_Should_Be_Normal()
+    {
+      var sut = new Frame(1);
+      sut.Roll(8);
+      sut.Roll(1);
+      sut.ScoreType.Should().Be(ScoreType.Normal);
+    }
   }
 }
