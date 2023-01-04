@@ -1,7 +1,7 @@
-﻿using Bowling.Abstract.Contracts;
+﻿using Bowling.Abstract;
+using Bowling.Abstract.Contracts;
 using Bowling.Abstract.Enums;
-using System.Linq;
-using Bowling.Abstract;
+using Bowling.EventArgs;
 
 namespace Bowling
 {
@@ -11,17 +11,17 @@ namespace Bowling
 
     public int Index { get; }
 
-    private Roll[] _rolls { get; set; } = new Roll[2];
-
     public ScoreType ScoreType => _rolls.LastOrDefault(x => x != null)?.Type ?? ScoreType.None;
 
     public byte RollNumber { get; private set; } = 0;
 
-    public bool IsCompleted => RollNumber == Constants.MaxFrameRollNumber;
+    public bool IsCompleted => RollNumber == Constants.RollsNumber || ScoreType == ScoreType.Strike;
 
     public int Bonus { get; set; }
 
-    public Frame() { }
+    private int _rollsBonus;
+
+    private readonly Roll[] _rolls = new Roll[Constants.RollsNumber];
 
     public Frame(int index)
     {
@@ -30,28 +30,43 @@ namespace Bowling
 
     public void Roll(int pins)
     {
+      bool IsSpare() => RollNumber == 2 && IsMaxScoreReached(Total);
+
+      bool IsStrike() => RollNumber == 1 && IsMaxScoreReached(pins);
+
       RollNumber++;
       var roll = new Roll() { Score = pins };
-
       _rolls[RollNumber-1] = roll;
+      roll.Type = IsStrike() ? ScoreType.Strike : IsSpare() ? ScoreType.Spare : ScoreType.Normal;
 
-      if (IsStrike(pins))
+      if (ScoreType == ScoreType.Normal)
       {
-        roll.Type = ScoreType.Strike;
+        return;
       }
-      else if (IsSpare())
-      {
-        roll.Type = ScoreType.Spare;
-      }
-      else
-      {
-        roll.Type = ScoreType.Normal;
-      }
+
+      _rollsBonus = EvaluateRollsBonus(ScoreType);
+      Interop.OnRolled += OnRolled;
     }
 
-    private bool IsSpare() => RollNumber == 2 && IsMaxScoreReached(_rolls.Sum(x => x.Score));
+    private byte EvaluateRollsBonus(ScoreType scoreType)
+    {
+      return scoreType switch
+      {
+        ScoreType.Strike => 2,
+        ScoreType.Spare => 1,
+        _ => 0
+      };
+    }
 
-    private bool IsStrike(int pins) => RollNumber == 1 && IsMaxScoreReached(pins);
+    private void OnRolled(object sender, RolledEventArgs e)
+    {
+      Bonus += e.Pins;
+      _rollsBonus--; 
+      if (_rollsBonus == 0)
+      {
+        Interop.OnRolled -= OnRolled;
+      }
+    }
 
     private static bool IsMaxScoreReached(int score) => score == Constants.MaxRollScore;
   }

@@ -1,4 +1,6 @@
-﻿namespace Bowling.Abstract.Contracts
+﻿using Bowling.EventArgs;
+
+namespace Bowling.Abstract.Contracts
 {
   public interface IGame
   {

@@ -11,7 +11,7 @@ namespace Bowling.Test
     {
       _sut = new Game();
     }
-    
+     
     [Fact]
     public void Can_Create_Game()
     {
@@ -55,10 +55,43 @@ namespace Bowling.Test
     }
 
     [Fact]
-    public void Can_Roll_10_Strike()
+    public void Can_Roll_All_Strike()
     {
       RollMany(10, 10);
       _sut.Score().Should().Be(270);
+    }
+
+    [Fact]
+    public void Can_Roll_13_Strike()
+    {
+      RollMany(10, 13);
+      _sut.Score().Should().Be(300);
+    }
+
+    [Fact]
+    public void Can_Roll_12_Strike()
+    {
+      RollMany(10, 12);
+      _sut.Score().Should().Be(300);
+    }
+
+    [Fact]
+    public void Can_Roll_10_Strike_And_Two_Normal_Rolls()
+    {
+      RollMany(10, 10);
+      _sut.Roll(3);
+      _sut.Roll(3);
+      _sut.Score().Should().Be(279);
+    }
+
+    [Fact]
+    public void Can_Roll_18_Normal_Frame_And_Spare_In_Last_Frame()
+    {
+      RollMany(1, 18);
+      _sut.Roll(3);
+      _sut.Roll(7);
+      _sut.Roll(5);
+      _sut.Score().Should().Be(33);
     }
 
     private void RollMany(int pins, int rolls)
